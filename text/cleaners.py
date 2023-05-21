@@ -15,6 +15,7 @@ hyperparameter. Some cleaners are English-specific. You'll typically want to use
 import re
 from unidecode import unidecode
 from phonemizer import phonemize
+import pyopenjtalk
 
 
 # Regular expression matching whitespace:
@@ -107,4 +108,12 @@ def english_cleaners2(text):
         with_stress=True,
     )
     phonemes = collapse_whitespace(phonemes)
+    return phonemes
+
+
+def japanese_cleaners(text):
+    phonemes = pyopenjtalk.g2p(text, kana=False)
+    phonemes = phonemes.replace('pau',',')
+    phonemes = phonemes.replace(' ','')
+    phonemes = phonemes + '.'
     return phonemes
